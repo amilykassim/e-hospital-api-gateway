@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Post, Query, Res } from '@nestjs/com
 import { MedicalService } from './medical.service';
 require('dotenv').config();
 
-@Controller('/api/v1')
+@Controller('/api/v1/medical')
 export class MedicalController {
   constructor(
     private readonly medicalService: MedicalService,

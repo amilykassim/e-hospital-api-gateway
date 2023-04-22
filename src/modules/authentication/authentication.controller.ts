@@ -1,27 +1,53 @@
-import { Controller, Get, Headers, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Headers, HttpStatus, Post, Query, Res } from '@nestjs/common';
 import { AuthenticationService } from './authentication.service';
 require('dotenv').config();
 
 @Controller('/api/v1/auth')
 export class AuthenticationController {
   constructor(
-    private readonly authenticationService: AuthenticationService,
+    private readonly authService: AuthenticationService,
   ) { }
 
 
-  @Get('/timelineEventsHistory')
-  async getTimelineEvents() {
-    // Check customer id
-    // const { customer_id } = user;
-    // if (customer_id == undefined) return res.status(400).json({ statusCode: 400, error: 'Customer Id is not provided in the token' });
+  @Post('/register')
+  async registerUser(@Body() payload, @Res() res) {
 
-    // const result = await this.AuthenticationService.getTimelineEvents(customer_id);
+    const { username, email, phone, password } = payload;
 
-    // // check if there is data
-    // if (result.length == 0) {
-    //   return res.status(404).json({ statusCode: 404, message: "You have no timeline events history. Please try again later. If the problem persists please contact Oltranz support team." });
-    // }
+    let error, data;
 
-    // return res.status(200).json({ statusCode: 200, data });
+    if (username) {
+      // const { error: err, data: results } = await this.authService.registerByUsername(username, password);
+      // error =  err;
+      // data =  results;
+    }
+
+    else if (email) {
+      const { error: err, data: results } = await this.authService.registerByEmail(email, password);
+      error = err;
+      data = results;
+    }
+
+    else if (phone) {
+      // const { error: err, data: results } = await this.authService.registerByPhone(phone, password);
+      // error =  err;
+      // data =  results;
+    }
+
+    if (error) return res.status(HttpStatus.BAD_REQUEST).json({ error: error.response.data });
+
+    return res.status(HttpStatus.OK).json({ data });
+  }
+
+  @Post('/login')
+  async addMedicine(@Body() payload, @Res() res) {
+
+    const { email, password } = payload;
+
+    const { error, data } = await this.authService.login(email, password);
+
+    if (error) return res.status(HttpStatus.BAD_REQUEST).json({ error: error.response.data });
+
+    return res.status(HttpStatus.OK).json({ data });
   }
 }
