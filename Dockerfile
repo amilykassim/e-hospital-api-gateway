@@ -18,21 +18,10 @@ COPY package*.json ./
 ENV NODE_ENV=production
 RUN npm ci
 
-# Set node environment variable to production
-
-# ENV NODE_PORT=8080
-ENV ELASTIC_APM_SERVER_URL=https://apm.oltranz.com \
-    ELASTIC_APM_SERVICE_NAME=sms-api \
-    ELASTIC_APM_SECRET_TOKEN=6K3cy2B19b3EnvuZr62a8zx6
-
 # Bundle app source
-# TODO: should we only copy a whitelist or use docker ignore for blacklist?
 COPY . . 
 
 RUN npm run build
 
 # No port exposed for microservice.
 CMD [ "npm", "run", "start:prod" ]
-
-# dev image: https://www.docker.com/blog/advanced-dockerfiles-faster-builds-and-smaller-images-using-buildkit-and-multistage-builds/
-# docker build optimisation: https://brianchristner.io/what-is-docker-buildkit/

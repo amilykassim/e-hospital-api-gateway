@@ -1,10 +1,10 @@
-import { AuthModule } from './authentication/keycloak.module';
 import { Module } from '@nestjs/common';
-import { SMSModule } from './sms/sms.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { MedicalModule } from './modules/medical/medical.module';
 
 @Module({
-  imports: [SMSModule, AuthModule],
+  imports: [AuthenticationModule, MedicalModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

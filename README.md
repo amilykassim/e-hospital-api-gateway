@@ -1,3 +1,3 @@
-# API GATEWAY
+# E-HOSPITAL API GATEWAY
 
-```API GATEWAY```
+```API Gateway for E-hospital```
